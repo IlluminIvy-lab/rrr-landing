@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealReentryRegister — Here's what you're actually walking into.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2f4a3e;
+    --forest-dark: #223629;
+    --ochre: #c99a44;
+    --ochre-light: #e0bc78;
+    --parchment: #f4ede1;
+    --charcoal: #2b2b2b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--forest);
+    color: var(--parchment);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(244,237,225,0.12);
+  }
+
+  header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mark-badge {
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid var(--ochre);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--ochre-light);
+    flex-shrink: 0;
+  }
+
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    opacity: 0.85;
+  }
+
+  nav a {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--parchment);
+    opacity: 0.6;
+    margin-left: 22px;
+    transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 1; }
+
+  nav a.nav-cta {
+    opacity: 1;
+    color: var(--ochre-light);
+    font-weight: 600;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 90px 0 70px;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 5.2vw, 46px);
+    line-height: 1.18;
+    max-width: 620px;
+    color: var(--parchment);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--ochre-light);
+  }
+
+  .hero p.sub {
+    margin-top: 22px;
+    font-size: 17px;
+    max-width: 480px;
+    opacity: 0.78;
+  }
+
+  .hero .pathway {
+    margin-top: 56px;
+  }
+
+  /* Pathway SVG signature element */
+  .pathway svg { width: 100%; height: auto; display: block; }
+
+  /* CTA button */
+  .cta-row {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn:hover { transform: translateY(-1px); }
+
+  .btn-primary {
+    background: var(--ochre);
+    color: var(--forest-dark);
+  }
+
+  .btn-primary:hover { background: var(--ochre-light); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--parchment);
+    border: 1px solid rgba(244,237,225,0.3);
+  }
+
+  .btn-secondary:hover { border-color: rgba(244,237,225,0.6); }
+
+  /* Section shared */
+  section { padding: 64px 0; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(244,237,225,0.12);
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ochre-light);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  section h2 {
+    font-size: clamp(24px, 3.5vw, 30px);
+    margin-bottom: 20px;
+    max-width: 560px;
+  }
+
+  section p {
+    max-width: 560px;
+    opacity: 0.82;
+    font-size: 16px;
+  }
+
+  section p + p { margin-top: 14px; }
+
+  /* Three functions */
+  .functions {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .function {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 18px;
+    align-items: start;
+    padding: 22px 0;
+    border-top: 1px solid rgba(244,237,225,0.1);
+  }
+
+  .function:last-child { border-bottom: 1px solid rgba(244,237,225,0.1); }
+
+  .function-num {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: rgba(244,237,225,0.3);
+  }
+
+  .function.active .function-num { color: var(--ochre); }
+
+  .function-body h3 {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .function-body p {
+    font-size: 14.5px;
+    opacity: 0.7;
+    max-width: 460px;
+  }
+
+  .function-body a.inline-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ochre-light);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(224,188,120,0.4);
+  }
+
+  .function-body a.inline-link:hover { border-color: var(--ochre-light); }
+
+  .status-tag {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+    height: fit-content;
+    font-weight: 600;
+  }
+
+  .status-active {
+    background: rgba(201,154,68,0.18);
+    color: var(--ochre-light);
+    border: 1px solid rgba(201,154,68,0.4);
+  }
+
+  .status-locked {
+    background: transparent;
+    color: rgba(244,237,225,0.4);
+    border: 1px solid rgba(244,237,225,0.18);
+  }
+
+  /* Framework pathway */
+  .modules {
+    margin-top: 40px;
+    position: relative;
+  }
+
+  .module {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 34px;
+    position: relative;
+  }
+
+  .module:last-child { padding-bottom: 0; }
+
+  .module-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .module-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ochre);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .module-line {
+    width: 1.5px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--ochre), rgba(201,154,68,0.15));
+    margin-top: 6px;
+  }
+
+  .module:last-child .module-line { display: none; }
+
+  .module-content h3 {
+    font-size: 16.5px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--parchment);
+  }
+
+  .module-content p {
+    font-size: 14px;
+    opacity: 0.68;
+    max-width: 460px;
+  }
+
+  /* App callout band */
+  .app-callout {
+    background: var(--forest-dark);
+    border-radius: 14px;
+    padding: 40px 36px;
+    margin-top: 44px;
+    border: 1px solid rgba(201,154,68,0.25);
+  }
+
+  .app-callout .eyebrow { margin-bottom: 10px; }
+
+  .app-callout h3 {
+    font-size: clamp(20px, 3vw, 24px);
+    color: var(--parchment);
+    margin-bottom: 12px;
+  }
+
+  .app-callout p {
+    font-size: 15.5px;
+    opacity: 0.8;
+    max-width: 520px;
+    margin-bottom: 24px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 56px 0 48px;
+    border-top: 1px solid rgba(244,237,225,0.12);
+  }
+
+  footer .foot-line {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    max-width: 480px;
+    line-height: 1.5;
+    color: var(--parchment);
+    margin-bottom: 28px;
+  }
+
+  footer .foot-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    opacity: 0.55;
+  }
+
+  footer a.contact-link {
+    text-decoration: none;
+    color: var(--ochre-light);
+    opacity: 1;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 60px 0 46px; }
+    section { padding: 48px 0; }
+    .function { grid-template-columns: 32px 1fr; }
+    .function .status-tag { grid-column: 2; margin-top: 8px; }
+    nav a { margin-left: 14px; font-size: 12px; }
+    footer .foot-meta { flex-direction: column; align-items: flex-start; }
+    .app-callout { padding: 28px 22px; }
+    .cta-row { flex-direction: column; }
+    .btn { justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mark">
+      <div class="mark-badge">RR</div>
+      <div class="wordmark">RealReentryRegister</div>
+    </div>
+    <nav>
+      <a href="#repository">Repository</a>
+      <a href="#framework">Framework</a>
+      <a href="#contact">Contact</a>
+      <a href="https://rrr-engine.onrender.com/" class="nav-cta" target="_blank" rel="noopener">Try the Tool →</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Here's what you're actually walking into. <em>Let's make a plan that works with what's true.</em></h1>
+    <p class="sub">RealReentryRegister exists because reentry is fragmented — people leave with no map, and the organizations that could help operate in isolation from each other. RRR builds the map, one real function at a time.</p>
+
+    <div class="cta-row">
+      <a href="https://rrr-engine.onrender.com/" class="btn btn-primary" target="_blank" rel="noopener">Open the Planning Tool</a>
+      <a href="#repository" class="btn btn-secondary">See What RRR Is</a>
+    </div>
+
+    <div class="pathway">
+      <svg viewBox="0 0 720 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 10 70 C 120 70, 160 20, 260 20 C 340 20, 360 55, 440 55" stroke="#c99a44" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 440 55 C 470 55, 480 55, 505 55" stroke="#c99a44" stroke-width="2" fill="none" stroke-dasharray="1 9" stroke-linecap="round" opacity="0.5"/>
+        <path d="M 540 55 C 600 55, 640 30, 710 30" stroke="#c99a44" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="10" cy="70" r="4.5" fill="#c99a44"/>
+        <circle cx="710" cy="30" r="4.5" fill="#e0bc78"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="repository">
+  <div class="wrap">
+    <div class="eyebrow">What RRR Is</div>
+    <h2>Knowledge and planning support, built for people navigating this from the inside.</h2>
+    <p>RRR's founding leverage is direct contact and real relationships — with the organizations, employers, and systems that actually shape what reentry looks like — not just information about them.</p>
+    <p>Right now, that means one function is active. Two more are locked until the credibility and delivery capacity exist to do them right.</p>
+
+    <div class="functions">
+      <div class="function active">
+        <div class="function-num">01</div>
+        <div class="function-body">
+          <h3>Repository</h3>
+          <p>Knowledge base and planning support for people who are pre-release. Research, career planning, formatting, guidance — buildable now, on a phone, no external dependency.</p>
+          <a href="https://rrr-engine.onrender.com/" class="inline-link" target="_blank" rel="noopener">Open the planning tool →</a>
+        </div>
+        <div class="status-tag status-active">Active</div>
+      </div>
+      <div class="function">
+        <div class="function-num">02</div>
+        <div class="function-body">
+          <h3>Consulting</h3>
+          <p>Ongoing, hands-on support for people post-release. Unlocks once delivery capacity exists.</p>
+        </div>
+        <div class="status-tag status-locked">Not yet</div>
+      </div>
+      <div class="function">
+        <div class="function-num">03</div>
+        <div class="function-body">
+          <h3>Advocacy</h3>
+          <p>Informing and advising employers and organizations on hiring and supporting this population. Requires the credibility Repository is building first.</p>
+        </div>
+        <div class="status-tag status-locked">Not yet</div>
+      </div>
+    </div>
+
+    <div class="app-callout">
+      <div class="eyebrow">The Planning Tool</div>
+      <h3>Turn what you did inside into a plan someone outside can read.</h3>
+      <p>The RRR planning tool translates institutional work and responsibility into civilian job language, builds a resume and application package, tracks where you've applied, and maps out what to do first, next, and after that — all in one place, free, no account required.</p>
+      <a href="https://rrr-engine.onrender.com/" class="btn btn-primary" target="_blank" rel="noopener">Open the Planning Tool</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="framework">
+  <div class="wrap">
+    <div class="eyebrow">The Repository Framework</div>
+    <h2>Six steps. Same sequence whether you're planning from inside or already out.</h2>
+    <p>Not a five-year plan. A real first target, and a way to build toward it with whatever you have access to right now.</p>
+
+    <div class="modules">
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-content">
+          <h3>Decide</h3>
+          <p>A real, specific direction for your first 90 days — not a dream, not a five-year plan.</p>
+        </div>
+      </div>
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-content">
+          <h3>Learn</h3>
+          <p>Become credible enough to take the next real step — not an expert in everything.</p>
+        </div>
+      </div>
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-content">
+          <h3>Practice</h3>
+          <p>Turn knowledge into reps. Skill comes from repetition, not understanding alone.</p>
+        </div>
+      </div>
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-content">
+          <h3>Prove</h3>
+          <p>Turn private progress into something someone else can see and trust.</p>
+        </div>
+      </div>
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-content">
+          <h3>Connect</h3>
+          <p>Stop building alone. Let real people become part of how you move forward.</p>
+        </div>
+      </div>
+      <div class="module">
+        <div class="module-connector"><div class="module-dot"></div></div>
+        <div class="module-content">
+          <h3>Sell</h3>
+          <p>Communicate clearly what you can do, and why it matters to the person deciding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-line">Second chances require systems, not just goodwill.</div>
+    <div class="foot-meta">
+      <span>RealReentryRegister — Macon / Atlanta, Georgia</span>
+      <a class="contact-link" href="mailto:shawantonio@gmail.com">Get in touch</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
