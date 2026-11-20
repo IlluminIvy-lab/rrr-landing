@@ -11,10 +11,15 @@
   :root {
     --forest: #2f4a3e;
     --forest-dark: #223629;
+    --forest-deep: #1b2c21;
     --ochre: #c99a44;
     --ochre-light: #e0bc78;
     --parchment: #f4ede1;
-    --charcoal: #2b2b2b;
+    --parchment-dim: rgba(244,237,225,0.82);
+    --parchment-faint: rgba(244,237,225,0.68);
+    --line: rgba(244,237,225,0.12);
+    --card-bg: rgba(244,237,225,0.045);
+    --card-border: rgba(244,237,225,0.13);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,9 +29,12 @@
   body {
     font-family: 'Inter', sans-serif;
     background: var(--forest);
+    background-image: radial-gradient(1100px 520px at 85% -80px, rgba(201,154,68,0.10), transparent 60%);
+    background-repeat: no-repeat;
     color: var(--parchment);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   h1, h2, h3 {
@@ -37,119 +45,82 @@
 
   a { color: inherit; }
 
+  a:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--ochre-light);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   .wrap {
-    max-width: 780px;
+    max-width: 880px;
     margin: 0 auto;
     padding: 0 24px;
   }
 
   /* Header */
   header {
-    padding: 28px 0;
-    border-bottom: 1px solid rgba(244,237,225,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(34,54,41,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
   }
 
   header .wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
 
   .mark {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
+    text-decoration: none;
+    min-height: 44px;
   }
 
   .mark-badge {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     border: 1.5px solid var(--ochre);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Fraunces', serif;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--ochre-light);
     flex-shrink: 0;
   }
 
   .wordmark {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--parchment);
-    opacity: 0.85;
-  }
-
-  nav a {
-    font-size: 13px;
-    text-decoration: none;
-    color: var(--parchment);
-    opacity: 0.6;
-    margin-left: 22px;
-    transition: opacity 0.2s;
-  }
-  nav a:hover { opacity: 1; }
-
-  nav a.nav-cta {
-    opacity: 1;
-    color: var(--ochre-light);
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
     font-weight: 600;
-  }
-
-  /* Hero */
-  .hero {
-    padding: 90px 0 70px;
-    position: relative;
-  }
-
-  .hero h1 {
-    font-size: clamp(30px, 5.2vw, 46px);
-    line-height: 1.18;
-    max-width: 620px;
+    letter-spacing: 0.005em;
     color: var(--parchment);
+    white-space: nowrap;
   }
 
-  .hero h1 em {
-    font-style: italic;
-    color: var(--ochre-light);
-  }
-
-  .hero p.sub {
-    margin-top: 22px;
-    font-size: 17px;
-    max-width: 480px;
-    opacity: 0.78;
-  }
-
-  .hero .pathway {
-    margin-top: 56px;
-  }
-
-  /* Pathway SVG signature element */
-  .pathway svg { width: 100%; height: auto; display: block; }
-
-  /* CTA button */
-  .cta-row {
-    margin-top: 40px;
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
+  /* Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 14px 24px;
-    border-radius: 6px;
+    min-height: 48px;
+    padding: 13px 24px;
+    border-radius: 8px;
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
   .btn:hover { transform: translateY(-1px); }
@@ -169,12 +140,67 @@
 
   .btn-secondary:hover { border-color: rgba(244,237,225,0.6); }
 
-  /* Section shared */
-  section { padding: 64px 0; }
+  .btn-header {
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 76px 0 64px;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 5.4vw, 48px);
+    line-height: 1.16;
+    max-width: 640px;
+    color: var(--parchment);
+  }
+
+  .hero .subline {
+    margin-top: 16px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(19px, 3vw, 23px);
+    line-height: 1.4;
+    color: var(--ochre-light);
+    max-width: 560px;
+  }
+
+  .hero .intro {
+    margin-top: 20px;
+    font-size: 17px;
+    line-height: 1.65;
+    max-width: 540px;
+    color: var(--parchment-dim);
+  }
+
+  .cta-row {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .hero-art {
+    margin-top: 52px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(201,154,68,0.28);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.28);
+    line-height: 0;
+  }
+
+  .hero-art svg { width: 100%; height: auto; display: block; }
+
+  /* Sections */
+  section { padding: 68px 0; }
 
   .divider {
     border: none;
-    border-top: 1px solid rgba(244,237,225,0.12);
+    border-top: 1px solid var(--line);
   }
 
   .eyebrow {
@@ -187,103 +213,158 @@
   }
 
   section h2 {
-    font-size: clamp(24px, 3.5vw, 30px);
+    font-size: clamp(25px, 3.6vw, 31px);
+    line-height: 1.3;
     margin-bottom: 20px;
-    max-width: 560px;
+    max-width: 580px;
   }
 
   section p {
-    max-width: 560px;
-    opacity: 0.82;
+    max-width: 580px;
+    color: var(--parchment-dim);
     font-size: 16px;
   }
 
   section p + p { margin-top: 14px; }
 
-  /* Three functions */
-  .functions {
-    margin-top: 36px;
+  /* Function cards */
+  .cards {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 26px 24px;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 12px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
   }
 
-  .function {
-    display: grid;
-    grid-template-columns: 44px 1fr auto;
-    gap: 18px;
-    align-items: start;
-    padding: 22px 0;
-    border-top: 1px solid rgba(244,237,225,0.1);
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(201,154,68,0.4);
   }
 
-  .function:last-child { border-bottom: 1px solid rgba(244,237,225,0.1); }
+  .card.active {
+    border-color: rgba(201,154,68,0.45);
+    background: rgba(201,154,68,0.06);
+  }
 
-  .function-num {
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid rgba(201,154,68,0.4);
+    background: rgba(201,154,68,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-num {
     font-family: 'Fraunces', serif;
-    font-size: 20px;
-    color: rgba(244,237,225,0.3);
+    font-size: 15px;
+    color: rgba(244,237,225,0.35);
+    padding-top: 4px;
   }
 
-  .function.active .function-num { color: var(--ochre); }
+  .card.active .card-num { color: var(--ochre); }
 
-  .function-body h3 {
-    font-size: 17px;
+  .card h3 {
+    font-size: 19px;
     font-weight: 500;
-    margin-bottom: 4px;
   }
 
-  .function-body p {
+  .card p {
     font-size: 14.5px;
-    opacity: 0.7;
-    max-width: 460px;
+    color: var(--parchment-faint);
+    max-width: none;
+    flex: 1;
   }
 
-  .function-body a.inline-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 13.5px;
+  .card a.inline-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--ochre-light);
     text-decoration: none;
     border-bottom: 1px solid rgba(224,188,120,0.4);
+    align-self: flex-start;
   }
 
-  .function-body a.inline-link:hover { border-color: var(--ochre-light); }
+  .card a.inline-link:hover { border-color: var(--ochre-light); }
 
   .status-tag {
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 5px 10px;
+    padding: 5px 11px;
     border-radius: 100px;
     white-space: nowrap;
-    height: fit-content;
     font-weight: 600;
+    align-self: flex-start;
   }
 
   .status-active {
     background: rgba(201,154,68,0.18);
     color: var(--ochre-light);
-    border: 1px solid rgba(201,154,68,0.4);
+    border: 1px solid rgba(201,154,68,0.45);
   }
 
   .status-locked {
     background: transparent;
-    color: rgba(244,237,225,0.4);
-    border: 1px solid rgba(244,237,225,0.18);
+    color: rgba(244,237,225,0.72);
+    border: 1px solid rgba(244,237,225,0.3);
+  }
+
+  /* Planning tool band */
+  .tool-band {
+    background: var(--forest-dark);
+    border-radius: 16px;
+    padding: 44px 38px;
+    border: 1px solid rgba(201,154,68,0.3);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+  }
+
+  .tool-band .eyebrow { margin-bottom: 10px; }
+
+  .tool-band h2 {
+    font-size: clamp(22px, 3.2vw, 27px);
+    margin-bottom: 14px;
+  }
+
+  .tool-band p {
+    font-size: 15.5px;
+    max-width: 540px;
+    margin-bottom: 26px;
   }
 
   /* Framework pathway */
   .modules {
-    margin-top: 40px;
+    margin-top: 44px;
     position: relative;
   }
 
   .module {
     display: flex;
-    gap: 20px;
-    padding-bottom: 34px;
+    gap: 22px;
+    padding-bottom: 36px;
     position: relative;
   }
 
@@ -297,73 +378,74 @@
   }
 
   .module-dot {
-    width: 12px;
-    height: 12px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: var(--ochre);
+    border: 2px solid var(--ochre);
+    background: var(--forest-dark);
+    color: var(--ochre-light);
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin-top: 4px;
+    position: relative;
+    z-index: 1;
   }
 
   .module-line {
-    width: 1.5px;
+    width: 2px;
     flex: 1;
-    background: linear-gradient(to bottom, var(--ochre), rgba(201,154,68,0.15));
+    background: linear-gradient(to bottom, var(--ochre), rgba(201,154,68,0.12));
     margin-top: 6px;
+    border-radius: 2px;
   }
 
   .module:last-child .module-line { display: none; }
 
+  .module-content { padding-top: 6px; }
+
   .module-content h3 {
-    font-size: 16.5px;
+    font-size: 17.5px;
     font-weight: 500;
     margin-bottom: 4px;
     color: var(--parchment);
   }
 
   .module-content p {
-    font-size: 14px;
-    opacity: 0.68;
-    max-width: 460px;
-  }
-
-  /* App callout band */
-  .app-callout {
-    background: var(--forest-dark);
-    border-radius: 14px;
-    padding: 40px 36px;
-    margin-top: 44px;
-    border: 1px solid rgba(201,154,68,0.25);
-  }
-
-  .app-callout .eyebrow { margin-bottom: 10px; }
-
-  .app-callout h3 {
-    font-size: clamp(20px, 3vw, 24px);
-    color: var(--parchment);
-    margin-bottom: 12px;
-  }
-
-  .app-callout p {
-    font-size: 15.5px;
-    opacity: 0.8;
-    max-width: 520px;
-    margin-bottom: 24px;
+    font-size: 14.5px;
+    color: var(--parchment-faint);
+    max-width: 480px;
   }
 
   /* Footer */
   footer {
-    padding: 56px 0 48px;
-    border-top: 1px solid rgba(244,237,225,0.12);
+    padding: 60px 0 48px;
+    border-top: 1px solid var(--line);
+  }
+
+  footer .foot-tagline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(21px, 3.4vw, 25px);
+    max-width: 520px;
+    line-height: 1.45;
+    color: var(--parchment);
+    margin-bottom: 14px;
+  }
+
+  footer .foot-tagline em {
+    font-style: italic;
+    color: var(--ochre-light);
   }
 
   footer .foot-line {
-    font-family: 'Fraunces', serif;
-    font-size: 19px;
+    font-size: 15px;
     max-width: 480px;
-    line-height: 1.5;
-    color: var(--parchment);
-    margin-bottom: 28px;
+    line-height: 1.55;
+    color: var(--parchment-faint);
+    margin-bottom: 30px;
   }
 
   footer .foot-meta {
@@ -371,31 +453,48 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
-    font-size: 13px;
-    opacity: 0.55;
+    gap: 14px;
+    font-size: 13.5px;
+    color: var(--parchment-faint);
   }
 
-  footer a.contact-link {
+  footer .foot-links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  footer a.foot-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     text-decoration: none;
     color: var(--ochre-light);
-    opacity: 1;
+    font-weight: 600;
+  }
+
+  footer a.foot-link:hover { text-decoration: underline; }
+
+  @media (min-width: 760px) {
+    .cards { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 600px) {
-    .hero { padding: 60px 0 46px; }
-    section { padding: 48px 0; }
-    .function { grid-template-columns: 32px 1fr; }
-    .function .status-tag { grid-column: 2; margin-top: 8px; }
-    nav a { margin-left: 14px; font-size: 12px; }
-    footer .foot-meta { flex-direction: column; align-items: flex-start; }
-    .app-callout { padding: 28px 22px; }
+    .hero { padding: 52px 0 44px; }
+    section { padding: 50px 0; }
+    .wordmark { font-size: 16.5px; }
+    .mark-badge { width: 34px; height: 34px; font-size: 13.5px; }
+    .btn-header { padding: 10px 14px; font-size: 13.5px; }
     .cta-row { flex-direction: column; }
-    .btn { justify-content: center; }
+    .cta-row .btn { width: 100%; }
+    .tool-band { padding: 30px 22px; }
+    footer .foot-meta { flex-direction: column; align-items: flex-start; }
+    .module { gap: 16px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
+    .btn, .card { transition: none; }
   }
 </style>
 </head>
@@ -403,36 +502,55 @@
 
 <header>
   <div class="wrap">
-    <div class="mark">
-      <div class="mark-badge">RR</div>
-      <div class="wordmark">RealReentryRegister</div>
-    </div>
-    <nav>
-      <a href="#repository">Repository</a>
-      <a href="#framework">Framework</a>
-      <a href="#contact">Contact</a>
-      <a href="https://rrr-engine.onrender.com/" class="nav-cta" target="_blank" rel="noopener">Try the Tool →</a>
-    </nav>
+    <a class="mark" href="#top" aria-label="RealReentryRegister — back to top">
+      <span class="mark-badge" aria-hidden="true">RR</span>
+      <span class="wordmark">RealReentryRegister</span>
+    </a>
+    <a href="https://rrr-engine.onrender.com/" class="btn btn-primary btn-header" target="_blank" rel="noopener">Open the Planning Tool</a>
   </div>
 </header>
 
+<main id="top">
+
 <section class="hero">
   <div class="wrap">
-    <h1>Here's what you're actually walking into. <em>Let's make a plan that works with what's true.</em></h1>
-    <p class="sub">RealReentryRegister exists because reentry is fragmented — people leave with no map, and the organizations that could help operate in isolation from each other. RRR builds the map, one real function at a time.</p>
+    <h1>Here's what you're actually walking into.</h1>
+    <p class="subline">Let's make a plan that works with what's true.</p>
+    <p class="intro">RealReentryRegister exists because reentry is fragmented — people leave with no map, and the organizations that could help operate in isolation from each other. RRR builds the map, one real function at a time.</p>
 
     <div class="cta-row">
       <a href="https://rrr-engine.onrender.com/" class="btn btn-primary" target="_blank" rel="noopener">Open the Planning Tool</a>
       <a href="#repository" class="btn btn-secondary">See What RRR Is</a>
     </div>
 
-    <div class="pathway">
-      <svg viewBox="0 0 720 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M 10 70 C 120 70, 160 20, 260 20 C 340 20, 360 55, 440 55" stroke="#c99a44" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M 440 55 C 470 55, 480 55, 505 55" stroke="#c99a44" stroke-width="2" fill="none" stroke-dasharray="1 9" stroke-linecap="round" opacity="0.5"/>
-        <path d="M 540 55 C 600 55, 640 30, 710 30" stroke="#c99a44" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <circle cx="10" cy="70" r="4.5" fill="#c99a44"/>
-        <circle cx="710" cy="30" r="4.5" fill="#e0bc78"/>
+    <div class="hero-art">
+      <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a gold pathway winding across a dark green landscape, with a lone figure walking the path">
+        <title>A gold pathway winding across a dark green landscape, with a lone figure walking the path</title>
+        <rect width="720" height="300" fill="#223629"/>
+        <circle cx="618" cy="56" r="21" fill="none" stroke="#e0bc78" stroke-width="2"/>
+        <circle cx="90" cy="48" r="2.2" fill="#e0bc78" opacity="0.55"/>
+        <circle cx="180" cy="86" r="1.8" fill="#e0bc78" opacity="0.4"/>
+        <circle cx="420" cy="40" r="2" fill="#e0bc78" opacity="0.5"/>
+        <circle cx="520" cy="92" r="1.6" fill="#e0bc78" opacity="0.35"/>
+        <path d="M 0 208 Q 180 158 360 198 T 720 188 V 300 H 0 Z" fill="#1b2c21"/>
+        <path d="M 84 214 l 13 -30 l 13 30 Z" fill="#14231a"/>
+        <rect x="95" y="212" width="4" height="12" fill="#14231a"/>
+        <path d="M 566 200 l 11 -25 l 11 25 Z" fill="#14231a"/>
+        <rect x="575" y="198" width="4" height="10" fill="#14231a"/>
+        <path d="M 0 252 Q 200 220 420 246 T 720 238 V 300 H 0 Z" fill="#274234"/>
+        <path d="M -10 268 C 110 268, 180 192, 296 187" stroke="#c99a44" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M 330 185 C 390 182, 420 200, 462 210" stroke="#c99a44" stroke-width="3" fill="none" stroke-dasharray="1 10" stroke-linecap="round" opacity="0.55"/>
+        <path d="M 492 214 C 570 222, 640 178, 730 168" stroke="#c99a44" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="8" cy="266" r="5" fill="#c99a44"/>
+        <circle cx="712" cy="169" r="5" fill="#e0bc78"/>
+        <g stroke="#e0bc78" stroke-linecap="round" fill="none">
+          <path d="M 300 118 L 300 148" stroke-width="9"/>
+          <path d="M 300 126 L 283 141" stroke-width="7"/>
+          <path d="M 300 126 L 317 138" stroke-width="7"/>
+          <path d="M 300 148 L 285 183" stroke-width="8"/>
+          <path d="M 300 148 L 315 181" stroke-width="8"/>
+        </g>
+        <circle cx="300" cy="101" r="9.5" fill="#e0bc78"/>
       </svg>
     </div>
   </div>
@@ -447,37 +565,52 @@
     <p>RRR's founding leverage is direct contact and real relationships — with the organizations, employers, and systems that actually shape what reentry looks like — not just information about them.</p>
     <p>Right now, that means one function is active. Two more are locked until the credibility and delivery capacity exist to do them right.</p>
 
-    <div class="functions">
-      <div class="function active">
-        <div class="function-num">01</div>
-        <div class="function-body">
-          <h3>Repository</h3>
-          <p>Knowledge base and planning support for people who are pre-release. Research, career planning, formatting, guidance — buildable now, on a phone, no external dependency.</p>
-          <a href="https://rrr-engine.onrender.com/" class="inline-link" target="_blank" rel="noopener">Open the planning tool →</a>
+    <div class="cards">
+      <article class="card active">
+        <div class="card-top">
+          <span class="card-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e0bc78" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </span>
+          <span class="card-num" aria-hidden="true">01</span>
         </div>
-        <div class="status-tag status-active">Active</div>
-      </div>
-      <div class="function">
-        <div class="function-num">02</div>
-        <div class="function-body">
-          <h3>Consulting</h3>
-          <p>Ongoing, hands-on support for people post-release. Unlocks once delivery capacity exists.</p>
+        <h3>Repository</h3>
+        <p>Knowledge base and planning support for people who are pre-release. Research, career planning, formatting, guidance — buildable now, on a phone, no external dependency.</p>
+        <span class="status-tag status-active">Active</span>
+        <a href="https://rrr-engine.onrender.com/" class="inline-link" target="_blank" rel="noopener">Open the planning tool →</a>
+      </article>
+      <article class="card">
+        <div class="card-top">
+          <span class="card-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e0bc78" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          </span>
+          <span class="card-num" aria-hidden="true">02</span>
         </div>
-        <div class="status-tag status-locked">Not yet</div>
-      </div>
-      <div class="function">
-        <div class="function-num">03</div>
-        <div class="function-body">
-          <h3>Advocacy</h3>
-          <p>Informing and advising employers and organizations on hiring and supporting this population. Requires the credibility Repository is building first.</p>
+        <h3>Consulting</h3>
+        <p>Ongoing, hands-on support for people post-release. Unlocks once delivery capacity exists.</p>
+        <span class="status-tag status-locked">Not yet</span>
+      </article>
+      <article class="card">
+        <div class="card-top">
+          <span class="card-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e0bc78" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5v3h3.2L19 19V5L6.2 10.5H3z"/><path d="M8.5 14.5V19"/><path d="M21.5 9.5a4.2 4.2 0 0 1 0 5"/></svg>
+          </span>
+          <span class="card-num" aria-hidden="true">03</span>
         </div>
-        <div class="status-tag status-locked">Not yet</div>
-      </div>
+        <h3>Advocacy</h3>
+        <p>Informing and advising employers and organizations on hiring and supporting this population. Requires the credibility Repository is building first.</p>
+        <span class="status-tag status-locked">Not yet</span>
+      </article>
     </div>
+  </div>
+</section>
 
-    <div class="app-callout">
+<hr class="divider">
+
+<section id="tool">
+  <div class="wrap">
+    <div class="tool-band">
       <div class="eyebrow">The Planning Tool</div>
-      <h3>Turn what you did inside into a plan someone outside can read.</h3>
+      <h2>Turn what you did inside into a plan someone outside can read.</h2>
       <p>The RRR planning tool translates institutional work and responsibility into civilian job language, builds a resume and application package, tracks where you've applied, and maps out what to do first, next, and after that — all in one place, free, no account required.</p>
       <a href="https://rrr-engine.onrender.com/" class="btn btn-primary" target="_blank" rel="noopener">Open the Planning Tool</a>
     </div>
@@ -494,42 +627,42 @@
 
     <div class="modules">
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">1</div><div class="module-line" aria-hidden="true"></div></div>
         <div class="module-content">
           <h3>Decide</h3>
           <p>A real, specific direction for your first 90 days — not a dream, not a five-year plan.</p>
         </div>
       </div>
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">2</div><div class="module-line" aria-hidden="true"></div></div>
         <div class="module-content">
           <h3>Learn</h3>
           <p>Become credible enough to take the next real step — not an expert in everything.</p>
         </div>
       </div>
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">3</div><div class="module-line" aria-hidden="true"></div></div>
         <div class="module-content">
           <h3>Practice</h3>
           <p>Turn knowledge into reps. Skill comes from repetition, not understanding alone.</p>
         </div>
       </div>
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">4</div><div class="module-line" aria-hidden="true"></div></div>
         <div class="module-content">
           <h3>Prove</h3>
           <p>Turn private progress into something someone else can see and trust.</p>
         </div>
       </div>
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div><div class="module-line"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">5</div><div class="module-line" aria-hidden="true"></div></div>
         <div class="module-content">
           <h3>Connect</h3>
           <p>Stop building alone. Let real people become part of how you move forward.</p>
         </div>
       </div>
       <div class="module">
-        <div class="module-connector"><div class="module-dot"></div></div>
+        <div class="module-connector"><div class="module-dot" aria-hidden="true">6</div></div>
         <div class="module-content">
           <h3>Sell</h3>
           <p>Communicate clearly what you can do, and why it matters to the person deciding.</p>
@@ -539,12 +672,18 @@
   </div>
 </section>
 
+</main>
+
 <footer id="contact">
   <div class="wrap">
+    <div class="foot-tagline">Make the system visible. <em>Make the path clearer.</em></div>
     <div class="foot-line">Second chances require systems, not just goodwill.</div>
     <div class="foot-meta">
       <span>RealReentryRegister — Macon / Atlanta, Georgia</span>
-      <a class="contact-link" href="mailto:shawantonio@gmail.com">Get in touch</a>
+      <span class="foot-links">
+        <a class="foot-link" href="https://www.linkedin.com/in/illuminivy" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="foot-link" href="mailto:shawantonio@gmail.com">Get in touch</a>
+      </span>
     </div>
   </div>
 </footer>
